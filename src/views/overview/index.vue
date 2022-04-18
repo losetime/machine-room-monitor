@@ -23,7 +23,7 @@
           <img src="@/assets/images/overview/dotted-line.png" alt="" />
         </div>
         <machine-room-power />
-        <humiture />
+        <humiture-and-water />
         <air-conditioning-state />
       </div>
     </div>
@@ -31,15 +31,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import ConfigInfo from '@/components/overview/ConfigInfo.vue'
 import DiskUsage from '@/components/overview/DiskUsage.vue'
 import SystemDeploy from '@/components/overview/SystemDeploy.vue'
 import MachineRoomPower from '@/components/overview/MachineRoomPower.vue'
-import Humiture from '@/components/overview/Humiture.vue'
+import HumitureAndWater from '@/components/overview/HumitureAndWater.vue'
 import AirConditioningState from '@/components/overview/AirConditioningState.vue'
 import LocationInfo from '@/components/overview/LocationInfo.vue'
-import CpuAndDisk from '@/components/overview/CpuAndDisk.vue'
+import CpuAndDisk from '@/components/overview/CPUAndDisk.vue'
 </script>
 
 <style lang="less" scoped>
