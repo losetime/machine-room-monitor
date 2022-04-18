@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import store from '@/store'
+// import store from '@/store'
 import Layout from '@/layout/Layout.vue'
 import Header from '@/layout/Header.vue'
 import Sidebar from '@/layout/Sidebar.vue'
@@ -31,6 +31,11 @@ const routes = [
     name: 'Login',
     component: () => import('../views/login/index.vue'),
   },
+  {
+    path: '/overview',
+    name: 'Overview',
+    component: () => import('../views/overview/index.vue'),
+  },
 ]
 
 const specialRoute = ['Overview', 'FlowDesign']
@@ -40,7 +45,7 @@ const specialRoute = ['Overview', 'FlowDesign']
  */
 export const getRouters = async () => {
   const { code, data } = await apiGetRoutersInfo()
-  if (code === 200) {
+  if (code === 20000) {
     const routesInfo = formattRouter(data, [])
     routesInfo.forEach((item) => {
       router.addRoute(item)
@@ -56,47 +61,47 @@ export const router = createRouter({
 /**
  * @desc 路由守卫
  */
-router.beforeEach((to, _from, next) => {
-  const storeToken = store.state.token
-  const cacheToken = localStorage.getItem('ymToken')
-  if (to.name === 'Login') {
-    if (cacheToken) {
-      store.commit('SET_TOKEN', cacheToken)
-      store
-        .dispatch('GetUserInfo')
-        .then(async () => {
-          await getRouters()
-          next({ name: 'OnlineMonitor' })
-        })
-        .catch(() => {
-          localStorage.removeItem('ymToken')
-          next()
-        })
-    } else {
-      next()
-    }
-  } else {
-    if (cacheToken) {
-      if (storeToken) {
-        next()
-      } else {
-        store.commit('SET_TOKEN', cacheToken)
-        store
-          .dispatch('GetUserInfo')
-          .then(async () => {
-            await getRouters()
-            next({ path: to.path, query: to.query })
-          })
-          .catch(() => {
-            localStorage.removeItem('ymToken')
-            next({ name: 'Login' })
-          })
-      }
-    } else {
-      next({ name: 'Login' })
-    }
-  }
-})
+// router.beforeEach((to, _from, next) => {
+//   const storeToken = store.state.token
+//   const cacheToken = localStorage.getItem('ymToken')
+//   if (to.name === 'Login') {
+//     if (cacheToken) {
+//       store.commit('SET_TOKEN', cacheToken)
+//       store
+//         .dispatch('GetUserInfo')
+//         .then(async () => {
+//           await getRouters()
+//           next({ name: 'OnlineMonitor' })
+//         })
+//         .catch(() => {
+//           localStorage.removeItem('ymToken')
+//           next()
+//         })
+//     } else {
+//       next()
+//     }
+//   } else {
+//     if (cacheToken) {
+//       if (storeToken) {
+//         next()
+//       } else {
+//         store.commit('SET_TOKEN', cacheToken)
+//         store
+//           .dispatch('GetUserInfo')
+//           .then(async () => {
+//             await getRouters()
+//             next({ path: to.path, query: to.query })
+//           })
+//           .catch(() => {
+//             localStorage.removeItem('ymToken')
+//             next({ name: 'Login' })
+//           })
+//       }
+//     } else {
+//       next({ name: 'Login' })
+//     }
+//   }
+// })
 
 /**
  * @desc 格式化后端返回的路由信息

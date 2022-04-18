@@ -52,7 +52,7 @@ const handleConfirm = async () => {
   const params = { solution: solution.value }
   const { code } = await apiUpdateAssistantControlSolution(params as any)
   confirmLoading.value = false
-  if (code === 200) {
+  if (code === 20000) {
     if (handleType.value === actionTypeEnum.ADD) {
       props.handleRefresh()
       message.success('操作成功')
