@@ -46,14 +46,15 @@ const getHostConfigInfo = async () => {
   if (code === 20000) {
     diskUsage.value = Math.floor((Number.parseFloat(data.diskUsedGb) * 100) / 1024) / 100
     diskTotal.value = Math.floor((Number.parseFloat(data.diskTotalGb) * 100) / 1024) / 100
+    const usageRate = Math.ceil((diskUsage.value / diskTotal.value) * 100)
     chartInfo.value = {
       series: [
         {
           type: 'gauge',
           radius: '80%',
           center: ['50%', '50%'],
-          startAngle: 360,
-          endAngle: 0,
+          startAngle: 0,
+          endAngle: 360,
           min: 0,
           max: diskTotal.value,
           splitNumber: 10,
@@ -61,39 +62,38 @@ const getHostConfigInfo = async () => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: 'rgb(205,180,7)',
+                color: usageRate > 70 ? 'rgb(239,52,3)' : 'rgb(0,242,254)',
               },
               {
                 offset: 1,
-                color: 'rgb(239,52,3)',
+                color: usageRate > 70 ? 'rgb(205,180,7)' : 'rgb(0,54,117)',
               },
             ]),
           },
           progress: {
             show: true,
-            roundCap: true,
-            width: 10,
+            width: 20,
           },
           pointer: {
             show: false,
           },
           axisLine: {
-            roundCap: true,
             lineStyle: {
               width: 20,
               color: [
                 [
                   1,
-                  new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                      offset: 0,
-                      color: 'rgb(0,232,254)',
-                    },
-                    {
-                      offset: 1,
-                      color: 'rgb(1,54,115)',
-                    },
-                  ]),
+                  '#013877',
+                  // new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  //   {
+                  //     offset: 0,
+                  //     color: 'rgb(0,232,254)',
+                  //   },
+                  //   {
+                  //     offset: 1,
+                  //     color: 'rgb(1,54,115)',
+                  //   },
+                  // ]),
                 ],
               ],
             },
@@ -106,7 +106,6 @@ const getHostConfigInfo = async () => {
             },
           },
           splitLine: {
-            // show: false,
             distance: -20,
             length: 20,
             lineStyle: {
@@ -128,15 +127,18 @@ const getHostConfigInfo = async () => {
           },
           detail: {
             valueAnimation: true,
-            width: '50%',
-            borderRadius: 8,
+            width: 60,
+            height: 60,
+            borderRadius: 60,
+            borderWidth: 1,
+            borderColor: usageRate > 70 ? 'rgb(226,101,5)' : 'rgb(7,87,206)',
             offsetCenter: [0, 0],
-            fontSize: 20,
+            fontSize: 25,
+            color: usageRate > 70 ? 'rgb(238,52,3)' : 'rgb(3,237,252)',
             fontWeight: 'bolder',
-            formatter: function (value: number) {
-              return Math.ceil((value * 100) / diskTotal.value) + '%'
+            formatter: function () {
+              return usageRate + '%'
             },
-            color: '#03EDFC',
           },
           data: [
             {

@@ -5,6 +5,7 @@ enum Api {
   getSystemDeploy = '/monitor/homepage/listSystemOverview',
   getCpuUsageTop5 = '/monitor/homepage/listRecentDayAvgCpuUsedRateTopN',
   getMemoryUsageTop5 = '/monitor/homepage/listRecentDayAvgMemoryUsedRateTopN',
+  getMonitorOverviewInfo = '/monitor/donghuan/queryLatestDonghuanData',
 }
 
 // -------------------------------------- 首页 --------------------------------------------------
@@ -51,5 +52,15 @@ export function apiGetMemoryUsageTop5(params: { topN: number; recentDays: number
     url: Api.getMemoryUsageTop5,
     method: 'GET',
     params,
+  })
+}
+
+/**
+ * @desc 获取动环监控相关数据
+ */
+export function apiGetMonitorOverviewInfo(): Promise<any> {
+  return $http.request({
+    url: Api.getMonitorOverviewInfo,
+    method: 'GET',
   })
 }

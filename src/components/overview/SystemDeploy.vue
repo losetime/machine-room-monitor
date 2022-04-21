@@ -6,14 +6,14 @@
         <span>系统名</span>
         <span>主机数</span>
         <span>CPU核数</span>
-        <span>磁盘(GB)</span>
+        <span>磁盘</span>
       </div>
       <div class="table-body-wrap">
         <div class="item-wrap" v-for="(item, index) in tableData" :key="index">
           <span>{{ item.systemName }}</span>
           <span>{{ item.hostTotal }}</span>
           <span>{{ item.cpuCoresTotal }}</span>
-          <span>{{ item.diskTotalGb }}</span>
+          <span>{{ item.diskTotalGb }}GB</span>
         </div>
       </div>
     </div>

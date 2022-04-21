@@ -47,7 +47,7 @@ const getCpuUsageTop5 = async () => {
     recentDays: 7,
   })
   if (code === 20000) {
-    let xAxis = []
+    let xAxis: string[] = []
     const series = data.map((item: any, index: number) => {
       if (index === 0) {
         xAxis = item.dayAvgUsedRates.map((val: any) => val.day.split(' ')[0])
@@ -87,7 +87,7 @@ const getMemoryUsageTop5 = async () => {
     recentDays: 7,
   })
   if (code === 20000) {
-    let xAxis = []
+    let xAxis: string[] = []
     const series = data.map((item: any, index: number) => {
       if (index === 0) {
         xAxis = item.dayAvgUsedRates.map((val: any) => val.day.split(' ')[0])

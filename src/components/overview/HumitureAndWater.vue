@@ -9,27 +9,20 @@
           <span>湿度</span>
         </div>
         <div class="table-body-wrap">
-          <div class="item-wrap" v-for="(item, index) in 10" :key="index">
-            <span>1</span>
-            <span>1</span>
-            <span>294.3</span>
+          <div class="item-wrap" v-for="(item, index) in overviewData" :key="index">
+            <span>{{ item.pointLocation }}</span>
+            <span>{{ item.temperature }}℃</span>
+            <span>{{ item.humidity }}%</span>
           </div>
         </div>
       </div>
       <div class="alarm-info-wrap">
-        <div class="alarm-item-wrap">
+        <div class="alarm-item-wrap" v-for="(item, index) in pointState" :key="index">
           <div class="icon-wrap">
-            <img src="@/assets/images/overview/water-normal.png" alt="" />
-            <p>水浸1</p>
+            <img :src="item.normal ? normalStatus : alarmStatus" alt="点位" />
+            <p>{{ item.pointLocation }}</p>
           </div>
-          <span>正常</span>
-        </div>
-        <div class="alarm-item-wrap">
-          <div class="icon-wrap">
-            <img src="@/assets/images/overview/water-warning.png" alt="" />
-            <p>水浸1</p>
-          </div>
-          <span>告警</span>
+          <span>{{ item.normal ? '正常' : '告警' }}</span>
         </div>
       </div>
     </div>
@@ -37,7 +30,13 @@
 </template>
 
 <script setup lang="ts">
+import normalStatus from '@/assets/images/overview/water-normal.png'
+import alarmStatus from '@/assets/images/overview/water-warning.png'
 // import { ref } from 'vue'
+defineProps<{
+  overviewData: any[]
+  pointState: any[]
+}>()
 
 // const tableData = ref([])
 </script>
@@ -98,12 +97,18 @@
     }
     .alarm-info-wrap {
       width: 50%;
+      height: 100%;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
       .alarm-item-wrap {
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-top: 14px;
         &:first-child {
-          margin-bottom: 14px;
+          margin-top: 0;
         }
         .icon-wrap {
           display: flex;

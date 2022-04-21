@@ -11,13 +11,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, watchEffect } from 'vue'
 import Gauge from '@/components/charts/Gauge.vue'
 import * as echarts from 'echarts'
 
+const props = defineProps<{
+  overviewData: number
+  maxPower: number
+}>()
+
 const machineRoomPower = ref()
 
-onMounted(() => {
+watchEffect(() => {
   machineRoomPower.value = {
     series: [
       {
@@ -27,7 +32,7 @@ onMounted(() => {
         startAngle: 200,
         endAngle: -20,
         min: 0,
-        max: 5000,
+        max: props.maxPower,
         splitNumber: 10,
         itemStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -96,7 +101,7 @@ onMounted(() => {
         },
         data: [
           {
-            value: 2879,
+            value: props.overviewData,
           },
         ],
       },

@@ -19,7 +19,7 @@
             <p>CPU核数</p>
             <p>
               <span>{{ state.cpuCoresTotal }}</span
-              >个
+              >核
             </p>
           </div>
         </div>
