@@ -1,24 +1,24 @@
 <template>
   <div class="cpu-and-disk-wrapper">
-    <div class="title-wrap">CPU&内存</div>
+    <div class="title-wrap">应用系统CPU&内存</div>
     <div class="content-wrap">
       <div class="cpu-usage-wrap">
+        <div class="title-text">CPU占用</div>
         <Line
           :xAxis="cpuUsage?.xAxis || []"
           :yAxis="cpuUsage?.yAxis || []"
           :series="cpuUsage?.series || []"
           domId="cpu-usage"
         />
-        <div class="tip-wrap">主机CPU占用TOP5</div>
       </div>
       <div class="disk-usage-wrap">
+        <div class="title-text">内存占用</div>
         <Line
           :xAxis="diskUsage?.xAxis || []"
           :yAxis="diskUsage?.yAxis || []"
           :series="diskUsage?.series || []"
           domId="disk-usage"
         />
-        <div class="tip-wrap">主机内存占用TOP5</div>
       </div>
     </div>
   </div>
@@ -28,52 +28,73 @@
 import { ref, onMounted } from 'vue'
 import Line from '@/components/charts/Line.vue'
 import * as echarts from 'echarts'
-import { apiGetCpuUsageTop5, apiGetMemoryUsageTop5 } from '@/service/api/overview'
+import { apiGetCpuUsageInfo, apiGetMemoryUsageInfo } from '@/service/api/overview'
 
 const cpuUsage = ref()
 
 const diskUsage = ref()
 
-const rgbColors = ['107,184,144', '231,139,49', '50,166,245', '26,61,148', '136,51,235']
+const systemCode = ['data_platform,iot', 'digital_twin,command_center,distribution_network,cvit_monitor']
+
+const currenIndex = ref(0)
+
+const chartStep = 3600
 
 onMounted(() => {
-  getCpuUsageTop5()
-  getMemoryUsageTop5()
+  setInterval(loadInfo(), 1000 * 5)
 })
 
-const getCpuUsageTop5 = async () => {
-  const { code, data } = await apiGetCpuUsageTop5({
-    topN: 5,
-    recentDays: 7,
+const loadInfo = () => {
+  getCpuUsageInfo(systemCode[currenIndex.value])
+  getMemoryUsageInfo(systemCode[currenIndex.value])
+  currenIndex.value = currenIndex.value === 0 ? 1 : 0
+  return loadInfo
+}
+
+/**
+ * @desc 当日系统主机CPU占用情况
+ */
+const getCpuUsageInfo = async (systemCode: string) => {
+  const { code, data } = await apiGetCpuUsageInfo({
+    systemCodeList: systemCode,
+    windowSec: chartStep,
   })
   if (code === 20000) {
+    let series: any[] = []
     let xAxis: string[] = []
-    const series = data.map((item: any, index: number) => {
-      if (index === 0) {
-        xAxis = item.dayAvgUsedRates.map((val: any) => val.day.split(' ')[0])
-      }
-      return {
-        name: item.hostIp,
-        data: item.dayAvgUsedRates.map((val: any) => parseFloat(val.usedRate)),
-        type: 'line',
-        showSymbol: false,
-        itemStyle: {
-          color: `rgb(${rgbColors[index]})`,
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: `rgba(${rgbColors[index]}, 0.8)`,
-            },
-            {
-              offset: 1,
-              color: `rgba(${rgbColors[index]}, 0.2)`,
-            },
-          ]),
-        },
-      }
-    })
+    for (let [index, item] of data.entries()) {
+      // 过滤掉数据为空的主机
+      const itemTemp = item.hostUsedRateList.filter((filterItem: any) => filterItem.windowTime2UsedRateList.length > 0)
+      // 处理原始数据
+      const seriesTemp = itemTemp.map((mapItem: any, mapIndex: number) => {
+        // 生成X轴数据
+        if (xAxis.length <= 0 && mapItem.windowTime2UsedRateList.length > 0) {
+          xAxis = mapItem.windowTime2UsedRateList.map((val: any) => val.key.split(' ')[1])
+        }
+        return {
+          name: item.systemShortName + (mapIndex + 1),
+          data: mapItem.windowTime2UsedRateList.map((val: any) => parseFloat(val.value)),
+          type: 'line',
+          showSymbol: false,
+          itemStyle: {
+            color: `rgb(${formatColor(index, mapIndex, data)})`,
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: `rgba(${formatColor(index, mapIndex, data)}, 0.8)`,
+              },
+              {
+                offset: 1,
+                color: `rgba(${formatColor(index, mapIndex, data)}, 0.2)`,
+              },
+            ]),
+          },
+        }
+      })
+      series = series.concat(seriesTemp)
+    }
     cpuUsage.value = {
       xAxis,
       series,
@@ -81,43 +102,82 @@ const getCpuUsageTop5 = async () => {
   }
 }
 
-const getMemoryUsageTop5 = async () => {
-  const { code, data } = await apiGetMemoryUsageTop5({
-    topN: 5,
-    recentDays: 7,
+/**
+ * @desc 当日系统主机内存占用情况
+ */
+const getMemoryUsageInfo = async (systemCode: string) => {
+  const { code, data } = await apiGetMemoryUsageInfo({
+    systemCodeList: systemCode,
+    windowSec: chartStep,
   })
   if (code === 20000) {
+    let series: any[] = []
     let xAxis: string[] = []
-    const series = data.map((item: any, index: number) => {
-      if (index === 0) {
-        xAxis = item.dayAvgUsedRates.map((val: any) => val.day.split(' ')[0])
-      }
-      return {
-        name: item.hostIp,
-        data: item.dayAvgUsedRates.map((val: any) => val.usedRate),
-        type: 'line',
-        showSymbol: false,
-        itemStyle: {
-          color: `rgb(${rgbColors[index]})`,
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: `rgba(${rgbColors[index]}, 0.8)`,
-            },
-            {
-              offset: 1,
-              color: `rgba(${rgbColors[index]}, 0.2)`,
-            },
-          ]),
-        },
-      }
-    })
+    for (let [index, item] of data.entries()) {
+      // 过滤掉数据为空的主机
+      const itemTemp = item.hostUsedRateList.filter((filterItem: any) => filterItem.windowTime2UsedRateList.length > 0)
+      // 处理原始数据
+      const seriesTemp = itemTemp.map((mapItem: any, mapIndex: number) => {
+        // 生成X轴数据
+        if (xAxis.length <= 0 && mapItem.windowTime2UsedRateList.length > 0) {
+          xAxis = mapItem.windowTime2UsedRateList.map((val: any) => val.key.split(' ')[1])
+        }
+        return {
+          name: item.systemShortName + (mapIndex + 1),
+          data: mapItem.windowTime2UsedRateList.map((val: any) => parseFloat(val.value)),
+          type: 'line',
+          showSymbol: false,
+          itemStyle: {
+            color: `rgb(${formatColor(index, mapIndex, data)})`,
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: `rgba(${formatColor(index, mapIndex, data)}, 0.8)`,
+              },
+              {
+                offset: 1,
+                color: `rgba(${formatColor(index, mapIndex, data)}, 0.2)`,
+              },
+            ]),
+          },
+        }
+      })
+      series = series.concat(seriesTemp)
+    }
     diskUsage.value = {
       xAxis,
       series,
     }
+  }
+}
+
+/**
+ * @desc 处理颜色
+ */
+const formatColor = (oneLevelIndex: number, twoLevelIndex: number, data: any) => {
+  const rgbColors = [
+    '107,184,144',
+    '231,139,49',
+    '50,166,245',
+    '26,61,148',
+    '136,51,235',
+    '47,194,91',
+    '0,192,228',
+    '121,88,240',
+    '129,165,139',
+    '236,208,128',
+    '178,210,186',
+  ]
+  if (oneLevelIndex === 0) {
+    return rgbColors[twoLevelIndex]
+  } else {
+    let len = 0
+    for (let i = 0; i < oneLevelIndex; i++) {
+      len += data[i].hostUsedRateList.length
+    }
+    return rgbColors[len + twoLevelIndex]
   }
 }
 </script>
@@ -126,13 +186,17 @@ const getMemoryUsageTop5 = async () => {
 .cpu-and-disk-wrapper {
   width: 100%;
   padding: 0 28px;
+
   .title-wrap {
-    font-size: 18px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
     font-weight: bold;
     color: #00b0e7;
   }
+
   .content-wrap {
-    height: 220px;
+    height: 505px;
     display: flex;
     justify-content: space-between;
     padding: 14px 14px;
@@ -140,16 +204,20 @@ const getMemoryUsageTop5 = async () => {
     background-repeat: no-repeat;
     background-size: 100% 98%;
     overflow: auto;
+
     .cpu-usage-wrap,
     .disk-usage-wrap {
       position: relative;
       width: 48%;
-      height: 170px;
-      .tip-wrap {
-        color: #ffffff;
+      height: 450px;
+      margin-top: 20px;
+
+      .title-text {
         position: absolute;
-        bottom: -25px;
-        left: 40%;
+        top: -5px;
+        left: 28px;
+        font-size: 30px;
+        color: #ffffff;
       }
     }
   }

@@ -15,7 +15,10 @@
         <system-deploy ref="systemDeployInstance" />
       </div>
       <div class="layout-middle-wrap">
-        <location-info :overviewData="monitorInfo?.temperatureHumidityList || []" />
+        <location-info
+          :overviewData="monitorInfo?.temperatureHumidityList || []"
+          :pointState="monitorInfo?.waterLoggingList || []"
+        />
         <cpu-and-disk ref="cpuAndDiskInstance" />
       </div>
       <div class="layout-right-wrap">
@@ -114,21 +117,26 @@ const setDateTime = () => {
 
 <style lang="less" scoped>
 .overview-wrapper {
-  height: 100vh;
   width: 100%;
-  overflow: hidden;
+  height: 100%;
+  overflow: auto;
   background-image: url('../../assets/images/overview/overview-bg.png');
   background-repeat: no-repeat;
   background-size: cover;
 
   .header-wrap {
+    height: 224px;
     position: relative;
+
+    img {
+      width: 100%;
+    }
 
     .time-wrap {
       position: absolute;
-      top: 5px;
-      right: 20px;
-      font-size: 16px;
+      top: 16px;
+      right: 60px;
+      font-size: 50px;
       color: #ffffff;
     }
   }
@@ -136,16 +144,16 @@ const setDateTime = () => {
   .content-wrap {
     display: flex;
     justify-content: space-between;
-    padding: 14px 28px;
+    padding: 14px 58px;
 
     .layout-left-wrap,
     .layout-right-wrap {
-      width: 422px;
+      width: 844px;
 
       .overview-title-wrap {
         p {
           margin: 0;
-          font-size: 20px;
+          font-size: 80px;
           font-weight: bold;
           color: #01e7fb;
         }
@@ -160,6 +168,7 @@ const setDateTime = () => {
       flex: 1;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
   }
 }

@@ -27,8 +27,8 @@ watchEffect(() => {
     series: [
       {
         type: 'gauge',
-        radius: '90%',
-        center: ['50%', '60%'],
+        radius: '100%',
+        center: ['50%', '65%'],
         startAngle: 200,
         endAngle: -20,
         min: 0,
@@ -49,7 +49,7 @@ watchEffect(() => {
         progress: {
           show: true,
           roundCap: true,
-          width: 10,
+          width: 40,
         },
         pointer: {
           show: false,
@@ -57,7 +57,7 @@ watchEffect(() => {
         axisLine: {
           roundCap: true,
           lineStyle: {
-            width: 10,
+            width: 40,
             color: [[1, '#013877']],
           },
         },
@@ -94,7 +94,7 @@ watchEffect(() => {
           width: '50%',
           borderRadius: 8,
           offsetCenter: [0, '-10%'],
-          fontSize: 20,
+          fontSize: 70,
           fontWeight: 'bolder',
           formatter: '{value}W',
           color: '#03EDFC',
@@ -112,17 +112,19 @@ watchEffect(() => {
 
 <style lang="less" scoped>
 .machine-room-power-wrapper {
-  width: 422px;
+  width: 844px;
   color: #ffffff;
 
   .title-wrap {
-    font-size: 18px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
     font-weight: bold;
     color: #00b0e7;
   }
 
   .content-wrap {
-    height: 220px;
+    height: 505px;
     padding: 0 14px;
     background-image: url('../../assets/images/overview/info-background.png');
     background-repeat: no-repeat;
@@ -131,25 +133,25 @@ watchEffect(() => {
     position: relative;
     .chart-wrap {
       width: 100%;
-      height: 200px;
+      height: 420px;
     }
     .tip-wrap {
-      position: absolute;
-      top: 72%;
-      left: 38%;
-      width: 120px;
+      width: 238px;
       text-align: center;
-      font-size: 20px;
+      font-size: 40px;
       font-weight: bold;
+      position: absolute;
+      left: 37%;
+      top: 72%;
       &::after {
         content: '';
         display: block;
-        width: 120px;
-        height: 10px;
+        width: 238px;
+        height: 15px;
         background-image: linear-gradient(#03ebfa, #0863d3);
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        margin-top: 2px;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        margin-top: 5px;
       }
     }
   }

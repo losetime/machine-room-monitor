@@ -4,6 +4,7 @@
     <div class="content-wrap">
       <div class="header-wrap">
         <span>系统名</span>
+        <span>状态</span>
         <span>主机数</span>
         <span>CPU核数</span>
         <span>磁盘</span>
@@ -11,6 +12,17 @@
       <div class="table-body-wrap">
         <div class="item-wrap" v-for="(item, index) in tableData" :key="index">
           <span>{{ item.systemName }}</span>
+          <span>
+            <span
+              :style="{
+                backgroundColor: item.systemStatus,
+                display: 'inline-block',
+                width: '20px',
+                height: '20px',
+                borderRadius: '50%',
+              }"
+            ></span>
+          </span>
           <span>{{ item.hostTotal }}</span>
           <span>{{ item.cpuCoresTotal }}</span>
           <span>{{ item.diskTotalGb }}GB</span>
@@ -40,33 +52,39 @@ const getSystemDeploy = async () => {
 
 <style lang="less" scoped>
 .system-deploy-wrapper {
-  width: 422px;
+  width: 844px;
   margin-top: 8px;
   color: #ffffff;
 
   .title-wrap {
-    font-size: 18px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
     font-weight: bold;
     color: #00b0e7;
   }
 
   .content-wrap {
-    height: 220px;
-    padding: 28px 14px;
+    height: 505px;
+    padding: 28px;
     background-image: url('../../assets/images/overview/info-background.png');
     background-repeat: no-repeat;
     background-size: 100% 98%;
     overflow: auto;
 
     .header-wrap {
+      display: flex;
+      height: 62px;
+      line-height: 62px;
       border-bottom: 2px solid #0ca8d0;
       span {
-        display: inline-block;
-        width: 20%;
+        flex: 1;
+        text-align: center;
+        font-size: 32px;
       }
-
       span:first-child {
-        width: 40%;
+        flex: 1.5;
+        text-align: left;
       }
     }
 
@@ -78,15 +96,18 @@ const getSystemDeploy = async () => {
       }
 
       .item-wrap {
-        height: 30px;
-        line-height: 30px;
+        display: flex;
+        height: 62px;
+        line-height: 62px;
         span {
-          display: inline-block;
-          width: 20%;
+          flex: 1;
+          text-align: center;
+          font-size: 32px;
         }
 
         span:first-child {
-          width: 40%;
+          flex: 1.5;
+          text-align: left;
         }
 
         &:nth-of-type(even) {

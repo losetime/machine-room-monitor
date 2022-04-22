@@ -43,18 +43,20 @@ defineProps<{
 
 <style lang="less" scoped>
 .system-deploy-wrapper {
-  width: 422px;
+  width: 844px;
   margin-top: 8px;
   color: #ffffff;
 
   .title-wrap {
-    font-size: 18px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
     font-weight: bold;
     color: #00b0e7;
   }
 
   .content-wrap {
-    height: 220px;
+    height: 505px;
     display: flex;
     padding: 28px 14px;
     background-image: url('../../assets/images/overview/info-background.png');
@@ -64,29 +66,32 @@ defineProps<{
 
     .table-wrap {
       width: 50%;
+      margin-top: 10px;
       .header-wrap {
         border-bottom: 2px solid #0ca8d0;
         span {
           display: inline-block;
           width: 33%;
           text-align: center;
+          font-size: 32px;
         }
       }
 
       .table-body-wrap {
-        height: 140px;
+        height: 390px;
         overflow: auto;
         &::-webkit-scrollbar {
           width: 0;
         }
         .item-wrap {
-          height: 30px;
-          line-height: 30px;
+          height: 78px;
+          line-height: 78px;
 
           span {
             display: inline-block;
             width: 33%;
             text-align: center;
+            font-size: 30px;
           }
 
           &:nth-of-type(even) {
@@ -106,27 +111,29 @@ defineProps<{
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 14px;
+        margin-top: 57px;
         &:first-child {
-          margin-top: 0;
+          margin-top: 50px;
         }
         .icon-wrap {
           display: flex;
           flex-direction: column;
           align-items: center;
-          margin-right: 14px;
+          margin-right: 26px;
           img {
-            width: 40px;
+            width: 76px;
+            height: 96px;
           }
           p {
-            margin: 2px 0 0 0;
+            margin: 12px 0 0 0;
+            font-size: 32px;
           }
         }
         span {
-          font-size: 24px;
+          font-size: 70px;
           font-weight: bold;
           color: #03edfc;
-          margin-top: -18px;
+          margin-top: -50px;
         }
       }
     }

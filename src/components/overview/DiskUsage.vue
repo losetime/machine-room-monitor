@@ -51,7 +51,7 @@ const getHostConfigInfo = async () => {
       series: [
         {
           type: 'gauge',
-          radius: '80%',
+          radius: '75%',
           center: ['50%', '50%'],
           startAngle: 0,
           endAngle: 360,
@@ -72,14 +72,14 @@ const getHostConfigInfo = async () => {
           },
           progress: {
             show: true,
-            width: 20,
+            width: 40,
           },
           pointer: {
             show: false,
           },
           axisLine: {
             lineStyle: {
-              width: 20,
+              width: 40,
               color: [
                 [
                   1,
@@ -99,15 +99,15 @@ const getHostConfigInfo = async () => {
             },
           },
           axisTick: {
-            distance: -30,
+            distance: -50,
             lineStyle: {
               width: 1,
               color: 'rgb(0,232,254)',
             },
           },
           splitLine: {
-            distance: -20,
-            length: 20,
+            distance: -40,
+            length: 40,
             lineStyle: {
               width: 10,
               color: '#00142A',
@@ -127,13 +127,13 @@ const getHostConfigInfo = async () => {
           },
           detail: {
             valueAnimation: true,
-            width: 60,
-            height: 60,
-            borderRadius: 60,
-            borderWidth: 1,
+            width: 200,
+            height: 200,
+            borderRadius: 200,
+            borderWidth: 2,
             borderColor: usageRate > 70 ? 'rgb(226,101,5)' : 'rgb(7,87,206)',
             offsetCenter: [0, 0],
-            fontSize: 25,
+            fontSize: 60,
             color: usageRate > 70 ? 'rgb(238,52,3)' : 'rgb(3,237,252)',
             fontWeight: 'bolder',
             formatter: function () {
@@ -154,18 +154,20 @@ const getHostConfigInfo = async () => {
 
 <style lang="less" scoped>
 .disk-usage-wrapper {
-  width: 422px;
+  width: 844px;
   margin-top: 8px;
   color: #ffffff;
 
   .title-wrap {
-    font-size: 18px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
     font-weight: bold;
     color: #00b0e7;
   }
 
   .content-wrap {
-    height: 220px;
+    height: 505px;
     display: flex;
     padding: 14px 14px;
     background-image: url('../../assets/images/overview/info-background.png');
@@ -175,7 +177,7 @@ const getHostConfigInfo = async () => {
 
     .chart-wrap {
       width: 60%;
-      height: 200px;
+      height: 485px;
     }
 
     .info-wrap {
@@ -188,14 +190,11 @@ const getHostConfigInfo = async () => {
       .item-wrap {
         p {
           margin: 0;
-
-          &:last-child {
-            font-size: 16px;
-          }
+          font-size: 30px;
 
           &:last-child {
             span:first-child {
-              font-size: 25px;
+              font-size: 80px;
               margin-right: 4px;
             }
           }

@@ -6,6 +6,8 @@ enum Api {
   getCpuUsageTop5 = '/monitor/homepage/listRecentDayAvgCpuUsedRateTopN',
   getMemoryUsageTop5 = '/monitor/homepage/listRecentDayAvgMemoryUsedRateTopN',
   getMonitorOverviewInfo = '/monitor/donghuan/queryLatestDonghuanData',
+  getCpuUsageInfo = '/monitor/homepage/listCurrentDaySystemHostCpuUsedRate',
+  getMemoryUsageInfo = '/monitor/homepage/listCurrentDaySystemHostMemoryUsedRate',
 }
 
 // -------------------------------------- 首页 --------------------------------------------------
@@ -50,6 +52,28 @@ export function apiGetCpuUsageTop5(params: { topN: number; recentDays: number })
 export function apiGetMemoryUsageTop5(params: { topN: number; recentDays: number }): Promise<any> {
   return $http.request({
     url: Api.getMemoryUsageTop5,
+    method: 'GET',
+    params,
+  })
+}
+
+/**
+ * @desc: 当日系统主机CPU占用情况
+ */
+export function apiGetCpuUsageInfo(params: { systemCodeList?: string; windowSec?: number }): Promise<any> {
+  return $http.request({
+    url: Api.getCpuUsageInfo,
+    method: 'GET',
+    params,
+  })
+}
+
+/**
+ * @desc: 当日系统主机内存占用情况
+ */
+export function apiGetMemoryUsageInfo(params: { systemCodeList?: string; windowSec?: number }): Promise<any> {
+  return $http.request({
+    url: Api.getMemoryUsageInfo,
     method: 'GET',
     params,
   })

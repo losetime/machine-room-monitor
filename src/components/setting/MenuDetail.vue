@@ -152,7 +152,6 @@ const getMenuTreeOptions = async () => {
         children: data,
       },
     ]
-    console.log(menuTreeOptions.value)
   }
 }
 

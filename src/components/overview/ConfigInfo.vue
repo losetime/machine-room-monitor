@@ -75,16 +75,21 @@ const getHostConfigInfo = async () => {
 
 <style lang="less" scoped>
 .config-info-wrapper {
-  width: 422px;
+  width: 844px;
   color: #ffffff;
   .title-wrap {
-    font-size: 18px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 50px;
     font-weight: bold;
     color: #00b0e7;
   }
 
   .content-wrap {
-    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 505px;
     padding: 28px 14px;
     background-image: url('../../assets/images/overview/info-background.png');
     background-repeat: no-repeat;
@@ -97,16 +102,17 @@ const getHostConfigInfo = async () => {
         display: flex;
         align-items: center;
         img {
-          width: 80px;
-          height: 50px;
+          width: 216px;
+          height: 120px;
         }
 
         .info-wrap {
           p {
             margin: 0;
+            font-size: 30px;
             span {
               margin-right: 4px;
-              font-size: 18px;
+              font-size: 50px;
               font-weight: bold;
               color: #03edfc;
             }
@@ -115,8 +121,7 @@ const getHostConfigInfo = async () => {
       }
     }
     .row-wrap:first-child {
-      margin-bottom: 42px;
-      margin-top: 14px;
+      margin-bottom: 90px;
     }
   }
 }
