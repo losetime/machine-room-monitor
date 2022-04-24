@@ -5,38 +5,15 @@
       <div class="air-conditioning-wrap">
         <div class="row-wrap" v-for="(item, index) in overviewData" :key="index">
           <div class="icon-wrap">
-            <img src="@/assets/images/overview/air-conditioning.png" alt="" />
+            <img
+              src="@/assets/images/overview/air-conditioning.png"
+              alt=""
+              :class="{ 'air-condit-close': !item.open }"
+            />
             <div class="info-wrap">
               <p>{{ item.pointLocation }}</p>
-              <p>{{ item.open ? '开启' : '关闭' }}</p>
-            </div>
-          </div>
-          <div class="detail-wrap">
-            <p>设定温度 {{ item.settingTemperature || '--' }}℃</p>
-            <p>回风温度 {{ item.returnAirTemperature || '--' }}℃</p>
-            <p>回风湿度 {{ item.returnAirHumidity || '--' }}℃</p>
-          </div>
-        </div>
-        <div class="row-wrap" v-for="(item, index) in overviewData" :key="index">
-          <div class="icon-wrap">
-            <img src="@/assets/images/overview/air-conditioning.png" alt="" />
-            <div class="info-wrap">
-              <p>{{ item.pointLocation }}</p>
-              <p>{{ item.open ? '开启' : '关闭' }}</p>
-            </div>
-          </div>
-          <div class="detail-wrap">
-            <p>设定温度 {{ item.settingTemperature || '--' }}℃</p>
-            <p>回风温度 {{ item.returnAirTemperature || '--' }}℃</p>
-            <p>回风湿度 {{ item.returnAirHumidity || '--' }}℃</p>
-          </div>
-        </div>
-        <div class="row-wrap" v-for="(item, index) in overviewData" :key="index">
-          <div class="icon-wrap">
-            <img src="@/assets/images/overview/air-conditioning.png" alt="" />
-            <div class="info-wrap">
-              <p>{{ item.pointLocation }}</p>
-              <p>{{ item.open ? '开启' : '关闭' }}</p>
+              <p v-if="item.open">开启</p>
+              <p v-else style="color: #027f92">关闭</p>
             </div>
           </div>
           <div class="detail-wrap">
@@ -102,6 +79,10 @@ defineProps<{
           img {
             width: 176px;
             height: 176px;
+          }
+
+          .air-condit-close {
+            opacity: 0.6;
           }
 
           .info-wrap {

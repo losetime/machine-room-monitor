@@ -22,7 +22,8 @@
             <img :src="item.normal ? normalStatus : alarmStatus" alt="点位" />
             <p>{{ item.pointLocation }}</p>
           </div>
-          <span>{{ item.normal ? '正常' : '告警' }}</span>
+          <span v-if="item.normal">正常</span>
+          <span v-else style="color: #ef3403">告警</span>
         </div>
       </div>
     </div>

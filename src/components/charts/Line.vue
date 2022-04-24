@@ -84,11 +84,17 @@ const chartInit = () => {
         splitLine: {
           show: false,
         },
+        axisLabel: {
+          fontSize: 25,
+        },
       },
       yAxis: {
         type: 'value',
         splitLine: {
           show: false,
+        },
+        axisLabel: {
+          fontSize: 25,
         },
       },
     }
@@ -111,6 +117,9 @@ const chartInit = () => {
   }
   option.tooltip = {
     trigger: 'axis',
+    textStyle: {
+      fontSize: 25,
+    },
   }
   option.grid = {
     left: '3%',
@@ -126,6 +135,7 @@ const chartInit = () => {
       opacity: 0,
     },
     textStyle: {
+      fontSize: 25,
       color: '#7E8698',
     },
   }

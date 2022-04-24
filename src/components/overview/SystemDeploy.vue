@@ -89,7 +89,7 @@ const getSystemDeploy = async () => {
     }
 
     .table-body-wrap {
-      height: 140px;
+      height: 380px;
       overflow: auto;
       &::-webkit-scrollbar {
         width: 0;

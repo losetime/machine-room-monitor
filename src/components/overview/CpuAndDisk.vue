@@ -83,11 +83,11 @@ const getCpuUsageInfo = async (systemCode: string) => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: `rgba(${formatColor(index, mapIndex, data)}, 0.8)`,
+                color: `rgba(${formatColor(index, mapIndex, data)}, 0.6)`,
               },
               {
                 offset: 1,
-                color: `rgba(${formatColor(index, mapIndex, data)}, 0.2)`,
+                color: `rgba(${formatColor(index, mapIndex, data)}, 0.1)`,
               },
             ]),
           },
@@ -134,11 +134,11 @@ const getMemoryUsageInfo = async (systemCode: string) => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: `rgba(${formatColor(index, mapIndex, data)}, 0.8)`,
+                color: `rgba(${formatColor(index, mapIndex, data)}, 0.6)`,
               },
               {
                 offset: 1,
-                color: `rgba(${formatColor(index, mapIndex, data)}, 0.2)`,
+                color: `rgba(${formatColor(index, mapIndex, data)}, 0.1)`,
               },
             ]),
           },

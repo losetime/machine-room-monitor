@@ -14,7 +14,7 @@
         <p>温度 {{ point1?.temperature }}℃</p>
         <p>湿度 {{ point1?.humidity }}%</p>
       </div>
-      <img :src="point1.normal ? sensorNormal : sensorWarning" alt="" />
+      <img :src="isNormal(point1.temperature, point1.humidity) ? sensorNormal : sensorWarning" alt="" />
     </div>
     <div class="mark-wrap sensor-position-two">
       <span>{{ point2?.pointLocation }}</span>
@@ -22,7 +22,7 @@
         <p>温度 {{ point2?.temperature }}℃</p>
         <p>湿度 {{ point2?.humidity }}%</p>
       </div>
-      <img :src="point2.normal ? sensorNormal : sensorWarning" alt="" />
+      <img :src="isNormal(point2.temperature, point2.humidity) ? sensorNormal : sensorWarning" alt="" />
     </div>
     <div class="mark-wrap sensor-position-three">
       <span>{{ point3?.pointLocation }}</span>
@@ -30,7 +30,7 @@
         <p>温度 {{ point3?.temperature }}℃</p>
         <p>湿度 {{ point3?.humidity }}%</p>
       </div>
-      <img :src="point3.normal ? sensorNormal : sensorWarning" alt="" />
+      <img :src="isNormal(point3.temperature, point3.humidity) ? sensorNormal : sensorWarning" alt="" />
     </div>
     <div class="mark-wrap sensor-position-four">
       <span>{{ point4?.pointLocation }}</span>
@@ -38,7 +38,7 @@
         <p>温度 {{ point4?.temperature }}℃</p>
         <p>湿度 {{ point4?.humidity }}%</p>
       </div>
-      <img :src="point4.normal ? sensorNormal : sensorWarning" alt="" />
+      <img :src="isNormal(point4.temperature, point4.humidity) ? sensorNormal : sensorWarning" alt="" />
     </div>
     <div class="mark-wrap sensor-position-five">
       <span>{{ point5?.pointLocation }}</span>
@@ -46,7 +46,7 @@
         <p>温度 {{ point5?.temperature }}℃</p>
         <p>湿度 {{ point5?.humidity }}%</p>
       </div>
-      <img :src="point5.normal ? sensorNormal : sensorWarning" alt="" />
+      <img :src="isNormal(point5.temperature, point5.humidity) ? sensorNormal : sensorWarning" alt="" />
     </div>
   </div>
 </template>
@@ -76,6 +76,17 @@ const point5 = computed(() => props.overviewData.filter((item: any) => item.poin
 const waterPoint1 = computed(() => props.pointState.filter((item: any) => item.pointCode === '1')[0] || {})
 
 const waterPoint2 = computed(() => props.pointState.filter((item: any) => item.pointCode === '2')[0] || {})
+
+/**
+ * @desc 判断点位监测是否正常
+ */
+const isNormal = (temperature: number, humidity: number) => {
+  if (temperature > 60 || humidity > 60) {
+    return false
+  } else {
+    return true
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -123,7 +134,7 @@ const waterPoint2 = computed(() => props.pointState.filter((item: any) => item.p
   }
   .water-position-one {
     position: absolute;
-    top: 34%;
+    top: 32%;
     right: 6%;
     img {
       width: 93px;
@@ -135,7 +146,7 @@ const waterPoint2 = computed(() => props.pointState.filter((item: any) => item.p
   }
   .water-position-two {
     position: absolute;
-    top: 10%;
+    top: 8%;
     left: 32%;
     img {
       width: 93px;
@@ -147,27 +158,27 @@ const waterPoint2 = computed(() => props.pointState.filter((item: any) => item.p
   }
 
   .sensor-position-one {
-    top: 34.5%;
+    top: 32.5%;
     left: 14.2%;
     .sensor-position;
   }
   .sensor-position-two {
-    top: 41%;
-    left: 27.5%;
+    top: 39.2%;
+    left: 27.2%;
     .sensor-position;
   }
   .sensor-position-three {
-    top: 49.5%;
-    left: 43%;
+    top: 47.5%;
+    left: 42.8%;
     .sensor-position;
   }
   .sensor-position-four {
-    top: 14%;
-    left: 66.2%;
+    top: 11.6%;
+    left: 66.5%;
     .sensor-position;
   }
   .sensor-position-five {
-    top: 2.7%;
+    top: 0.2%;
     left: 40.5%;
     .sensor-position;
   }

@@ -57,7 +57,7 @@ import { apiGetHostConfigInfo } from '@/service/api/overview'
 const state = reactive({
   hostTotal: 0,
   cpuCoresTotal: 0,
-  diskTotalGb: 0,
+  diskTotalGb: '0',
   deploySystemQuantity: 0,
 })
 

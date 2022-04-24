@@ -117,8 +117,8 @@ const setDateTime = () => {
 
 <style lang="less" scoped>
 .overview-wrapper {
-  width: 100%;
-  height: 100%;
+  width: 3840px;
+  height: 100vh;
   overflow: auto;
   background-image: url('../../assets/images/overview/overview-bg.png');
   background-repeat: no-repeat;
@@ -144,7 +144,8 @@ const setDateTime = () => {
   .content-wrap {
     display: flex;
     justify-content: space-between;
-    padding: 14px 58px;
+    padding: 0 58px;
+    box-sizing: border-box;
 
     .layout-left-wrap,
     .layout-right-wrap {
@@ -155,7 +156,11 @@ const setDateTime = () => {
           margin: 0;
           font-size: 80px;
           font-weight: bold;
+          line-height: 110px;
           color: #01e7fb;
+          background-image: linear-gradient(to right bottom, #05a7e6, #00f5ff);
+          -webkit-background-clip: text;
+          color: transparent;
         }
 
         img {
