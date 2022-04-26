@@ -18,6 +18,8 @@
         <location-info
           :overviewData="monitorInfo?.temperatureHumidityList || []"
           :pointState="monitorInfo?.waterLoggingList || []"
+          :doorMagnetic="monitorInfo?.doorSensorList || []"
+          :smokeSensor="monitorInfo?.smokeSensorList || []"
         />
         <cpu-and-disk ref="cpuAndDiskInstance" />
       </div>
@@ -28,11 +30,14 @@
         </div>
         <machine-room-power
           :overviewData="monitorInfo?.serverRoomPower || 0"
-          :maxPower="monitorInfo?.serverRoomMaxPower"
+          :maxPower="monitorInfo?.serverRoomMaxPower || 0"
+          :powerOn="monitorInfo?.powerOn"
         />
         <humiture-and-water
           :overviewData="monitorInfo?.temperatureHumidityList || []"
-          :pointState="monitorInfo?.waterLoggingList || []"
+          :waterState="monitorInfo?.waterLoggingList || []"
+          :doorMagnetic="monitorInfo?.doorSensorList || []"
+          :smokeSensor="monitorInfo?.smokeSensorList || []"
         />
         <air-conditioning-state :overviewData="monitorInfo?.airConditionerList || []" />
       </div>
@@ -71,8 +76,7 @@ onMounted(() => {
     configInfoInstance.value.getHostConfigInfo()
     diskUsageInstance.value.getHostConfigInfo()
     systemDeployInstance.value.getSystemDeploy()
-    cpuAndDiskInstance.value.getCpuUsageTop5()
-    cpuAndDiskInstance.value.getMemoryUsageTop5()
+    cpuAndDiskInstance.value.loadInfo()
   }, 1000 * 60 * 5)
 })
 

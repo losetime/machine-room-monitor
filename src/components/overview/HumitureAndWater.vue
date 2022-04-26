@@ -1,6 +1,6 @@
 <template>
   <div class="system-deploy-wrapper">
-    <div class="title-wrap">温湿度&水浸</div>
+    <div class="title-wrap">环境监测</div>
     <div class="content-wrap">
       <div class="table-wrap">
         <div class="header-wrap">
@@ -17,12 +17,25 @@
         </div>
       </div>
       <div class="alarm-info-wrap">
-        <div class="alarm-item-wrap" v-for="(item, index) in pointState" :key="index">
-          <div class="icon-wrap">
-            <img :src="item.normal ? normalStatus : alarmStatus" alt="点位" />
-            <p>{{ item.pointLocation }}</p>
-          </div>
-          <span v-if="item.normal">正常</span>
+        <!-- 水浸 -->
+        <div class="alarm-item-wrap">
+          <p>{{ waterState[0]?.pointLocation }}</p>
+          <img :src="waterState[0]?.normal ? normalStatus : alarmStatus" alt="点位" />
+          <span v-if="waterState[0]?.normal">正常</span>
+          <span v-else style="color: #ef3403">告警</span>
+        </div>
+        <!-- 门磁 -->
+        <div class="alarm-item-wrap">
+          <p>{{ doorMagnetic[0]?.pointLocation }}</p>
+          <img :src="doorMagnetic[0]?.close ? doorMagneticNormal : doorMagneticWarning" alt="点位" />
+          <span v-if="doorMagnetic[0]?.close">关闭</span>
+          <span v-else style="color: #ef3403">开启</span>
+        </div>
+        <!-- 烟雾传感器 -->
+        <div class="alarm-item-wrap">
+          <p>{{ smokeSensor[0]?.pointLocation }}</p>
+          <img :src="smokeSensor[0]?.noSmoke ? smokeNormal : smokeWarning" alt="点位" />
+          <span v-if="smokeSensor[0]?.noSmoke">正常</span>
           <span v-else style="color: #ef3403">告警</span>
         </div>
       </div>
@@ -33,13 +46,17 @@
 <script setup lang="ts">
 import normalStatus from '@/assets/images/overview/water-normal.png'
 import alarmStatus from '@/assets/images/overview/water-warning.png'
-// import { ref } from 'vue'
+import doorMagneticNormal from '@/assets/images/overview/door-magnetic-mormal.png'
+import doorMagneticWarning from '@/assets/images/overview/door-magnetic-warning.png'
+import smokeNormal from '@/assets/images/overview/smoke-icon-normal.png'
+import smokeWarning from '@/assets/images/overview/smoke-icon-warning.png'
+
 defineProps<{
   overviewData: any[]
-  pointState: any[]
+  waterState: any[]
+  doorMagnetic: any[]
+  smokeSensor: any[]
 }>()
-
-// const tableData = ref([])
 </script>
 
 <style lang="less" scoped>
@@ -111,30 +128,28 @@ defineProps<{
       .alarm-item-wrap {
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin-top: 57px;
-        &:first-child {
-          margin-top: 50px;
+        justify-content: space-between;
+        width: 95%;
+        height: 110px;
+        padding: 0 28px;
+        margin: 30px 0 0 14px;
+        background-color: rgba(36, 86, 167, 0.2);
+        border: 2px solid rgba(36, 86, 167, 1);
+
+        p {
+          width: 105px;
+          font-size: 32px;
+          margin: 0;
         }
-        .icon-wrap {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-right: 26px;
-          img {
-            width: 76px;
-            height: 96px;
-          }
-          p {
-            margin: 12px 0 0 0;
-            font-size: 32px;
-          }
+
+        img {
+          width: 60px;
+          height: 74px;
         }
         span {
-          font-size: 70px;
+          font-size: 56px;
           font-weight: bold;
           color: #03edfc;
-          margin-top: -50px;
         }
       }
     }

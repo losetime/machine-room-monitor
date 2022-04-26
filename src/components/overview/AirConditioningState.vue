@@ -17,7 +17,6 @@
             </div>
           </div>
           <div class="detail-wrap">
-            <p>设定温度 {{ item.settingTemperature || '--' }}℃</p>
             <p>回风温度 {{ item.returnAirTemperature || '--' }}℃</p>
             <p>回风湿度 {{ item.returnAirHumidity || '--' }}℃</p>
           </div>
@@ -103,6 +102,9 @@ defineProps<{
 
         .detail-wrap {
           flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
           p {
             font-size: 30px;
             margin: 5px 0;

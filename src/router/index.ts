@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 // import store from '@/store'
 import Layout from '@/layout/Layout.vue'
 import Header from '@/layout/Header.vue'
@@ -49,7 +49,7 @@ export const getRouters = async () => {
 }
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 })
 

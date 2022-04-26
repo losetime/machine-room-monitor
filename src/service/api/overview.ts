@@ -65,6 +65,9 @@ export function apiGetCpuUsageInfo(params: { systemCodeList?: string; windowSec?
     url: Api.getCpuUsageInfo,
     method: 'GET',
     params,
+    headers: {
+      ignoreCancelToken: true, // 忽略关闭重复请求
+    },
   })
 }
 
@@ -76,6 +79,9 @@ export function apiGetMemoryUsageInfo(params: { systemCodeList?: string; windowS
     url: Api.getMemoryUsageInfo,
     method: 'GET',
     params,
+    headers: {
+      ignoreCancelToken: true, // 忽略关闭重复请求
+    },
   })
 }
 

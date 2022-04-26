@@ -32,7 +32,11 @@ import { apiGetCpuUsageInfo, apiGetMemoryUsageInfo } from '@/service/api/overvie
 
 const cpuUsage = ref()
 
+const cpuUsageSource = ref<any[]>([])
+
 const diskUsage = ref()
+
+const diskUsageSource = ref<any[]>([])
 
 const systemCode = ['data_platform,iot', 'digital_twin,command_center,distribution_network,cvit_monitor']
 
@@ -40,21 +44,29 @@ const currenIndex = ref(0)
 
 const chartStep = 3600
 
+const interval = ref<any>(0)
+
 onMounted(() => {
-  setInterval(loadInfo(), 1000 * 5)
+  loadInfo()
 })
 
 const loadInfo = () => {
-  getCpuUsageInfo(systemCode[currenIndex.value])
-  getMemoryUsageInfo(systemCode[currenIndex.value])
-  currenIndex.value = currenIndex.value === 0 ? 1 : 0
-  return loadInfo
+  clearInterval(interval.value)
+  systemCode.forEach((item: string, index: number) => {
+    getCpuUsageInfo(item, index)
+    getMemoryUsageInfo(item, index)
+  })
+  interval.value = setInterval(() => {
+    currenIndex.value = currenIndex.value === 0 ? 1 : 0
+    cpuUsage.value = cpuUsageSource.value[currenIndex.value]
+    diskUsage.value = diskUsageSource.value[currenIndex.value]
+  }, 1000 * 5)
 }
 
 /**
  * @desc 当日系统主机CPU占用情况
  */
-const getCpuUsageInfo = async (systemCode: string) => {
+const getCpuUsageInfo = async (systemCode: string, codeIndex: number) => {
   const { code, data } = await apiGetCpuUsageInfo({
     systemCodeList: systemCode,
     windowSec: chartStep,
@@ -95,7 +107,13 @@ const getCpuUsageInfo = async (systemCode: string) => {
       })
       series = series.concat(seriesTemp)
     }
-    cpuUsage.value = {
+    if (codeIndex === 0) {
+      cpuUsage.value = {
+        xAxis,
+        series,
+      }
+    }
+    cpuUsageSource.value[codeIndex] = {
       xAxis,
       series,
     }
@@ -105,7 +123,7 @@ const getCpuUsageInfo = async (systemCode: string) => {
 /**
  * @desc 当日系统主机内存占用情况
  */
-const getMemoryUsageInfo = async (systemCode: string) => {
+const getMemoryUsageInfo = async (systemCode: string, codeIndex: number) => {
   const { code, data } = await apiGetMemoryUsageInfo({
     systemCodeList: systemCode,
     windowSec: chartStep,
@@ -146,7 +164,13 @@ const getMemoryUsageInfo = async (systemCode: string) => {
       })
       series = series.concat(seriesTemp)
     }
-    diskUsage.value = {
+    if (codeIndex === 0) {
+      diskUsage.value = {
+        xAxis,
+        series,
+      }
+    }
+    diskUsageSource.value[codeIndex] = {
       xAxis,
       series,
     }
