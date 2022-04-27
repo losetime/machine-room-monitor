@@ -102,12 +102,13 @@ const getHostConfigInfo = async () => {
         display: flex;
         align-items: center;
         img {
-          width: 216px;
+          width: 190px;
           height: 120px;
         }
 
         .info-wrap {
           p {
+            width: 200px;
             margin: 0;
             font-size: 30px;
             span {

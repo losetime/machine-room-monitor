@@ -4,15 +4,15 @@
     <div class="content-wrap">
       <div class="header-wrap">
         <span>系统名</span>
-        <span>状态</span>
+        <span class="status-wrap">状态</span>
         <span>主机数</span>
         <span>CPU核数</span>
-        <span>磁盘</span>
+        <span class="disk-total">磁盘</span>
       </div>
       <div class="table-body-wrap">
         <div class="item-wrap" v-for="(item, index) in tableData" :key="index">
-          <span>{{ item.systemName }}</span>
-          <span>
+          <span>{{ item.systemShortName }}</span>
+          <span class="status-wrap">
             <span
               :style="{
                 backgroundColor: item.systemStatus,
@@ -25,7 +25,7 @@
           </span>
           <span>{{ item.hostTotal }}</span>
           <span>{{ item.cpuCoresTotal }}</span>
-          <span>{{ item.diskTotalGb }}GB</span>
+          <span class="disk-total">{{ formatDisk(item.diskTotalGb) }}</span>
         </div>
       </div>
     </div>
@@ -46,6 +46,14 @@ const getSystemDeploy = async () => {
   const { code, data } = await apiGetSystemDeploy()
   if (code === 20000) {
     tableData.value = data
+  }
+}
+
+const formatDisk = (total: number) => {
+  if (total > 1024) {
+    return Math.floor((total * 100) / 1024) / 100 + 'TB'
+  } else {
+    return total + 'GB'
   }
 }
 </script>
@@ -78,12 +86,19 @@ const getSystemDeploy = async () => {
       line-height: 62px;
       border-bottom: 2px solid #0ca8d0;
       span {
-        flex: 1;
+        display: block;
+        flex: 0.8;
         text-align: center;
         font-size: 32px;
       }
+      .status-wrap {
+        flex: 0.6 !important;
+      }
+      .disk-total {
+        flex: 1.2 !important;
+      }
       span:first-child {
-        flex: 1.5;
+        flex: 1.1;
         text-align: left;
       }
     }
@@ -100,13 +115,19 @@ const getSystemDeploy = async () => {
         height: 62px;
         line-height: 62px;
         span {
-          flex: 1;
+          display: block;
+          flex: 0.8;
           text-align: center;
           font-size: 32px;
         }
-
+        .status-wrap {
+          flex: 0.6 !important;
+        }
+        .disk-total {
+          flex: 1.2 !important;
+        }
         span:first-child {
-          flex: 1.5;
+          flex: 1.1;
           text-align: left;
         }
 

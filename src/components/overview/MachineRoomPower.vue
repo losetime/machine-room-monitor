@@ -9,7 +9,12 @@
         <div class="tip-wrap">机房功率</div>
       </div>
       <div class="layout-right-wrap">
-        <div class="chart-wrap"><img :src="powerOn ? powerSupplyNormal : powerSupplyWarning" alt="" /></div>
+        <div class="chart-wrap">
+          <img :src="powerOn ? powerSupplyNormal : powerSupplyWarning" alt="" />
+          <span class="power-supply-text" :style="{ color: powerOn ? '#03EDFC' : '#EF3403' }">
+            {{ powerOn ? '正常' : '断电' }}
+          </span>
+        </div>
         <div class="tip-wrap">供电状态</div>
       </div>
     </div>
@@ -181,6 +186,14 @@ watchEffect(() => {
         width: 236px;
         height: 236px;
         margin: 100px 0 0 98px;
+        position: relative;
+        .power-supply-text {
+          position: absolute;
+          top: 100px;
+          left: 64px;
+          font-size: 56px;
+          font-weight: bold;
+        }
 
         img {
           width: 100%;
