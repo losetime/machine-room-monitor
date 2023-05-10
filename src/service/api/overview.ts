@@ -32,6 +32,9 @@ export function apiGetSystemDeploy(): Promise<any> {
   return $http.request({
     url: Api.getSystemDeploy,
     method: 'GET',
+    headers: {
+      ignoreCancelToken: true,
+    },
   })
 }
 
