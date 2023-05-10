@@ -206,7 +206,7 @@ const getSystemDeploy = async () => {
  * @desc 判断点位监测是否正常
  */
 const isNormal = (temperature: number, humidity: number) => {
-  if (temperature <= 5 || temperature >= 30 || humidity <= 20 || humidity >= 80) {
+  if (temperature <= 5 || temperature >= 30 || humidity >= 80) {
     return false
   } else {
     return true

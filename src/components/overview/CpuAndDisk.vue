@@ -8,7 +8,8 @@
           :xAxis="cpuUsage?.xAxis || []"
           :yAxis="cpuUsage?.yAxis || []"
           :series="cpuUsage?.series || []"
-          domId="cpu-usage"
+          :domId="'cpu-usage'"
+          ref="cpuLineInstance"
         />
       </div>
       <div class="disk-usage-wrap">
@@ -17,7 +18,7 @@
           :xAxis="diskUsage?.xAxis || []"
           :yAxis="diskUsage?.yAxis || []"
           :series="diskUsage?.series || []"
-          domId="disk-usage"
+          :domId="'disk-usage'"
         />
       </div>
     </div>
@@ -45,6 +46,8 @@ const currenIndex = ref(0)
 const chartStep = 3600
 
 const interval = ref<any>(0)
+
+const cpuLineInstance = ref<any>(null)
 
 onMounted(() => {
   loadInfo()
@@ -193,6 +196,13 @@ const formatColor = (oneLevelIndex: number, twoLevelIndex: number, data: any) =>
     '129,165,139',
     '236,208,128',
     '178,210,186',
+    '55,139,133',
+    '213,127,127',
+    '230,221,196',
+    '240,233,210',
+    '153,140,235',
+    '255,230,83',
+    '236,179,144',
   ]
   if (oneLevelIndex === 0) {
     return rgbColors[twoLevelIndex]

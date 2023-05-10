@@ -89,12 +89,17 @@ const chartInit = () => {
         },
       },
       yAxis: {
+        name: '%',
         type: 'value',
         splitLine: {
           show: false,
         },
         axisLabel: {
           fontSize: 25,
+        },
+        nameTextStyle: {
+          fontSize: 25,
+          padding: [0, 25, 10, 0],
         },
       },
     }
@@ -118,24 +123,22 @@ const chartInit = () => {
   option.tooltip = {
     trigger: 'axis',
     textStyle: {
-      fontSize: 25,
+      fontSize: 15,
     },
   }
   option.grid = {
     left: '3%',
     right: '2%',
     bottom: '1%',
-    top: '15%',
+    top: '22%',
     containLabel: true,
   }
   option.legend = {
     show: true,
-    left: 'right',
-    itemStyle: {
-      opacity: 0,
-    },
+    left: '20%',
+    icon: 'circle',
     textStyle: {
-      fontSize: 25,
+      fontSize: 18,
       color: '#7E8698',
     },
   }
